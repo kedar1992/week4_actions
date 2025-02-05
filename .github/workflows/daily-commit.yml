@@ -22,7 +22,9 @@ jobs:
 
     - name: Make changes
       run: |
-        echo "Daily update" >> daily_update.txt
+        echo "Daily update: $(date)" >> daily_update.txt
+        echo "Contents of daily_update.txt:"
+        cat daily_update.txt
 
     - name: Commit changes with email 24ds2000116@ds.study.iitm.ac.in
       run: |
