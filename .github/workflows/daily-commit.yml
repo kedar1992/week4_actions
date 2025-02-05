@@ -1,42 +1,31 @@
 name: Daily Commit
 
+permissions:
+  contents: write
+
 on:
   schedule:
-    - cron: '0 0 * * *'  # Runs daily at 00:00 UTC
-  workflow_dispatch:      # Allows manual triggering of the workflow
+    - cron: '0 0 * * *' # This sets the action to run daily at midnight UTC.
+  workflow_dispatch: # Allows manual triggering
 
 jobs:
-  add-commit:
+  commit:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Verify repository
+    - name: Commit changes
       run: |
-        echo "Current directory: $(pwd)"
-        echo "Contents of directory:"
-        ls -la
-        git status || echo "Git status failed"
-
-    - name: Make changes
-      run: |
-        echo "Daily update: $(date)" >> daily_update.txt
-        echo "Contents of daily_update.txt:"
-        cat daily_update.txt
-
-    - name: Commit changes with email 24ds2000116@ds.study.iitm.ac.in
-      run: |
+        date > date.txt
         git config --global user.name 'github-actions[bot]'
-        git config --global user.email '24ds2000116@ds.study.iitm.ac.in'
-        git add -A
-        git status  # Check what is being added
-        git commit -m "Daily automated update" || echo "No changes to commit"
-
-    - name: Push changes
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add date.txt
+        git commit -m "Daily update $(date)" || echo "No changes to commit"
+        git push
       env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      run: |
-        git remote -v  # Verify remote URL
-        git push origin HEAD:main || echo "Push failed"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Notify 24ds2000116@ds.study.iitm.ac.in
+      run: echo "Email step included"
