@@ -30,11 +30,13 @@ jobs:
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email '24ds2000116@ds.study.iitm.ac.in'
-        git add .
+        git add -A
+        git status  # Check what is being added
         git commit -m "Daily automated update" || echo "No changes to commit"
 
     - name: Push changes
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
-        git push || echo "Push failed"
+        git remote -v  # Verify remote URL
+        git push origin HEAD:main || echo "Push failed"
