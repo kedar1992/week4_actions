@@ -27,5 +27,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Notify 24ds2000116@ds.study.iitm.ac.in
+    - name: Notify 24ds2000112@ds.study.iitm.ac.in
       run: echo "Email step included"
